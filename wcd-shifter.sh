@@ -38,6 +38,10 @@ case ${IMAGE_SHORT} in
 esac
 
 export XDG_RUNTIME_DIR="${TMPDIR:-/tmp}/`whoami`/run"
+export WCD_VER=${IMAGE_SHORT}
 mkdir -p ${XDG_RUNTIME_DIR}
+SDIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 echo "Starting Wakefield Collider Detector software image ${IMAGE_SHORT}"
-shifter --image=${IMAGE} --volume=/global/cfs/cdirs/atlas/spgriso/WFA/WarpX-out/:/data/WarpX-out/ -- /bin/bash
+echo "(source folder = ${SDIR})"
+shifter --image=${IMAGE} -- /bin/bash --init-file ${SDIR}/bashrc
+#--volume=/global/cfs/cdirs/atlas/spgriso/WFA/WarpX-out/:/data/WarpX-out/
